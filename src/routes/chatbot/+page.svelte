@@ -146,7 +146,7 @@
                 <img 
                   src={message.content} 
                   alt="Uploaded image"
-                  class="rounded-lg max-w-[720px] object-contain"
+                  class="rounded-lg max-w-[360px] object-contain"
                 />
                 {#if isLastMessage(index)}
                   <div class="absolute bottom-0 right-0 translate-y-full pt-1">

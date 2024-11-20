@@ -6,7 +6,7 @@
 
 <aside class={`h-screen bg-gray-900 text-white flex flex-col transition-all duration-300 ${isOpen ? 'w-64' : 'w-0 overflow-hidden'}`}>
   <div class="p-4 flex justify-between items-center whitespace-nowrap">
-    <h1 class="text-2xl"><a href="/">VirtuHand</a></h1>
+    <h1 class="text-2xl text-lime-500"><a href="/">VirtuHand</a></h1>
     <button 
       class="text-gray-400 hover:text-white"
       on:click={() => isOpen = !isOpen}
