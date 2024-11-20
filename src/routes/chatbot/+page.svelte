@@ -21,7 +21,7 @@
     };
   
     const generateId = () => {
-      return crypto.randomUUID();
+      return Math.random().toString(36).substr(2, 9);
     };
   
     const handleSendMessage = () => {
@@ -85,98 +85,14 @@
             
             chatMessages = [...chatMessages, newMessage];
             scrollToBottom();
-
           };
           
           reader.readAsDataURL(file);
-
-          await sendToAPI(file);
         }
         
         target.value = '';
       }
     };
-
-    async function sendToAPI(file: File) {
-
-      const fd = new FormData();
-
-      fd.append('image', file);
-
-      const response = await fetch('http://localhost:3000/virtuhand', {
-        method: 'POST',
-        body: fd,
-      });
-
-      const messageID = generateId()
-      const messageTimestamp = new Date()
-
-      const botResponse: ChatMessage = {
-        id: messageID,
-        content: '',
-        type: 'text',
-        timestamp: messageTimestamp,
-        sender: 'bot'
-      };
-
-      chatMessages = [...chatMessages, botResponse];
-
-      if (!response.ok || !response.body) {
-        throw response.statusText;
-      }
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      let buffer = ``;
-
-      while (true) {
-
-        const { done, value } = await reader.read();
-        
-        if (done) break;
-
-        const rawText = decoder.decode(value, { stream: true });
-
-        const jsonResponse = JSON.parse(rawText);
-
-        const parts = jsonResponse.parts;
-
-        buffer += parts[0].text;
-
-        chatMessages = chatMessages.filter((message) => message.id !== messageID);
-
-        parts.forEach((part: any) => {
-          const newMessage: ChatMessage = {
-            id: messageID,
-            content: buffer,
-            type: 'text',
-            timestamp: messageTimestamp,
-            sender: 'bot'
-          };
-          chatMessages = [...chatMessages, newMessage];
-        });
-
-        // document.getElementById("response-text").innerText = buffer;
-
-        //   const boundary = buffer.lastIndexOf(`\n`);
-        //   if (boundary !== -1) {
-        //     const completeData = buffer.substring(0, boundary);
-        //     buffer = buffer.substring(boundary + 1);
-
-        //     completeData.split(`\n`).forEach((chunk) => {
-        //       if (chunk) {
-        //         try {
-        //           const jsonObj = JSON.parse(chunk);
-        //           // Yay! Do what you want with your JSON here!
-        //         } catch (e) {
-        //           console.error(`Error parsing JSON:`, e);
-        //         }
-        //       }
-        //     });
-        //   }
-      }
-
-    }
   
     const formatTime = (date: Date) => {
       return new Intl.DateTimeFormat('en-US', {
@@ -229,8 +145,8 @@
               <div class="relative max-w-[80%]">
                 <img 
                   src={message.content} 
-                  alt="Uploaded"
-                  class="rounded-lg max-w-[720px] object-contain"
+                  alt="Uploaded image"
+                  class="rounded-lg max-w-[360px] object-contain"
                 />
                 {#if isLastMessage(index)}
                   <div class="absolute bottom-0 right-0 translate-y-full pt-1">
