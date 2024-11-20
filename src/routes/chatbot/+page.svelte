@@ -3,6 +3,7 @@
     import Sidebar from './sidebar.svelte';
     import { type ChatMessage } from './types';
     import { DocumentAttachOutline, Send } from 'svelte-ionicons';
+	import { jsonrepair } from 'jsonrepair';
     
     let message: string = '';
     let isSidebarOpen: boolean = true;
@@ -148,13 +149,13 @@
 
         scrollToBottom()
 
-        const { done, value } = await reader.read();
+        const { done, value } = await reader.read()
         
         if (done) break;
 
         const rawText = decoder.decode(value, { stream: true });
 
-        const jsonResponse = JSON.parse(rawText);
+        const jsonResponse = JSON.parse(jsonrepair(rawText));
 
         const parts = jsonResponse.parts;
 
