@@ -7,6 +7,7 @@ from PIL import Image
 import tensorflow as tf
 from spellchecker import SpellChecker
 from transformers import pipeline
+from better_profanity import profanity
 import io
 
 # Initialize the Flask app
@@ -15,9 +16,10 @@ app = Flask(__name__)
 # Load the trained handwriting recognition model
 model = load_model("path_to_your_model.h5")
 
-# Initialize spelling and grammar correction tools
+# Initialize spelling, grammar correction, and bad word filtering tools
 spell = SpellChecker()
 grammar_pipeline = pipeline("text2text-generation", model="t5-small")
+profanity.load_censor_words()
 
 # Define characters for decoding
 characters = "abcdefghijklmnopqrstuvwxyz0123456789 "
@@ -37,6 +39,10 @@ def correct_spelling(text):
 
 def correct_grammar(text):
     return grammar_pipeline(f"fix grammar: {text}")[0]['generated_text']
+
+# Bad word filtering
+def filter_bad_words(text):
+    return profanity.censor(text)
 
 # Route to handle image uploads and transcription
 @app.route("/upload", methods=["POST"])
@@ -59,11 +65,29 @@ def upload_image():
     pred = model.predict(img_array)
     transcribed_text = decode_prediction(pred)
 
-    # Correct spelling and grammar
+    # Apply corrections and filtering
     corrected_spelling = correct_spelling(transcribed_text)
-    final_output = correct_grammar(corrected_spelling)
+    corrected_grammar = correct_grammar(corrected_spelling)
+    final_output = filter_bad_words(corrected_grammar)
 
     return jsonify({"transcription": final_output})
 
+# Chatbot route for user interaction
+@app.route("/chatbot", methods=["POST"])
+def chatbot():
+    data = request.json
+    user_query = data.get("query", "")
+
+    # A simple chatbot logic (replace with advanced NLP for better results)
+    if "help" in user_query.lower():
+        response = "How can I assist you with your handwriting transcription?"
+    elif "transcription" in user_query.lower():
+        response = "You can upload a handwriting image for transcription via the upload feature."
+    else:
+        response = "I'm here to assist you. Please provide more details about your query."
+
+    return jsonify({"response": response})
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
+
