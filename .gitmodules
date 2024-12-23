@@ -1,0 +1,3 @@
+[submodule "datasets/handwriting_dataset"]
+	path = datasets/handwriting_dataset
+	url = https://github.com/7ahin/handwriting_dataset.git
