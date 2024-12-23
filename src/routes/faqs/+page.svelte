@@ -2,6 +2,7 @@
     import { faqs } from '../../lib/data/faqdata.js';
     import { slide } from 'svelte/transition';
     import { ChevronDownOutline } from 'svelte-ionicons';
+    import Particles from "../Particles.svelte";
   
     // Track open/closed state for each FAQ
     let openStates = new Map(faqs.map(faq => [faq.id, false]));
@@ -13,8 +14,9 @@
     }
   </script>
   
-  <div class="min-h-screen bg-gray-900 flex flex-col">
-    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 overflow-y-auto">
+  <div class="min-h-screen bg-gray-900 flex flex-col overflow-hidden">
+    <Particles className="absolute inset-0" refresh={true} />
+    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div class="max-w-3xl mx-auto">
           <div class="text-center mb-12">
             <h1 class="text-3xl font-bold text-white sm:text-4xl">
@@ -56,7 +58,7 @@
         </div>
       </main>
   
-    <footer class="bg-gray-800 py-6 mt-8">
+    <footer class="bg-gray-800 py-6 mt-8 overflow-hidden">
       <div class="text-center space-y-2">
         <p class="text-gray-300">Contact me at: haikalakif17@gmail.com</p>
         <p class="text-gray-300">

@@ -1,4 +1,6 @@
 <script>
+    import Particles from "../Particles.svelte";
+
     const tools = [
         {
             title: "File Format Converter",
@@ -40,6 +42,7 @@
 </script>
 
 <div class="h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white overflow-hidden">
+    <Particles className="absolute inset-0" refresh={true} />
     <div class="h-full container mx-auto px-4 py-8 overflow-y-auto">
         <div class="text-center mb-6 md:mb-8">
             <h1 class="text-2xl md:text-4xl font-bold mb-3 md:mb-4">Complementary Tools</h1>

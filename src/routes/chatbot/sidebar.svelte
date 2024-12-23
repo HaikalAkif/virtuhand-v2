@@ -38,7 +38,7 @@
           About
         </a>
         <a 
-          href="https://www.termsfeed.com/live/087fb814-8ea9-4b64-81bb-11c9a349af1d" 
+          href="/privacypolicy" 
           class="px-4 py-2 text-gray-300 hover:bg-gray-800"
         >
           Privacy Policy
