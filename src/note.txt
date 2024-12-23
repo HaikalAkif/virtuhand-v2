@@ -1,9 +1,0 @@
- To do list
-
-1. Responsive✅
-2. Login page popup✅
-3. Pricing, tools and about page scrolling🚧
-4. Check back button other website
-5. Find component animation entry
-6. favicon, highlight and tab title✅
-7. check fonts, theme color
