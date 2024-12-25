@@ -44,5 +44,8 @@
 		"svelte-french-toast": "^1.2.0",
 		"svelte-ionicons": "^2.0.1",
 		"tailwind-merge": "^2.5.5"
+	},
+	"engines": {
+		"node": "20.18.1"
 	}
 }
