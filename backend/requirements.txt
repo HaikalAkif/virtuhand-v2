@@ -1,4 +1,0 @@
-Flask==2.1.1
-tensorflow==2.8.0
-transformers==4.11.3
-textblob==0.15.3
