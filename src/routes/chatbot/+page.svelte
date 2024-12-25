@@ -46,7 +46,7 @@
     return crypto.randomUUID();
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (message.trim()) {
       const newMessage: ChatMessage = {
         id: generateId(),
@@ -59,6 +59,8 @@
       chatMessages = [...chatMessages, newMessage];
       message = '';
       scrollToBottom();
+
+      await sendMessageToAPI(newMessage.content);
     }
   };
 
@@ -172,6 +174,89 @@
       target.value = '';
     }
   };
+
+  async function sendMessageToAPI(message: string) {
+    const messageID = generateId()
+    const messageTimestamp = new Date()
+
+    const botResponse: ChatMessage = {
+      id: messageID,
+      content: '',
+      type: 'loading',
+      timestamp: messageTimestamp,
+      sender: 'bot',
+    };
+
+    chatMessages = [...chatMessages, botResponse];
+
+    const payload = {
+      message,
+    }
+
+    const response = await fetch('http://localhost:3000/chat', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok || !response.body) {
+      const responseJson = await response.json()
+      
+      const errorResponse: ChatMessage = {
+        id: messageID,
+        content: responseJson['message'],
+        type: 'error',
+        timestamp: messageTimestamp,
+        sender: 'bot',
+      };
+
+      chatMessages = chatMessages.filter((message) => message.id !== messageID);
+      chatMessages = [...chatMessages, errorResponse];
+
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let buffer = ``;
+
+    while (true) {
+      scrollToBottom()
+
+      const { done, value } = await reader.read()
+      
+      if (done) break;
+
+      const rawText = decoder.decode(value, { stream: true });
+
+      // buffer += rawText;
+
+      chatMessages = chatMessages.filter((message) => message.id !== messageID);
+
+      console.log(rawText)
+      console.log('\n')
+
+      const repaired = jsonrepair(rawText)
+
+      const parsed = JSON.parse(repaired)
+
+      buffer += parsed?.message[0]?.text
+
+      const newMessage: ChatMessage = {
+        id: messageID,
+        content: buffer,
+        type: 'text',
+        timestamp: messageTimestamp,
+        sender: 'bot',
+      };
+      chatMessages = [...chatMessages, newMessage];
+    }
+
+    buffer = ''
+  }
 
   async function sendToAPI(file: File) {
     const messageID = generateId()
