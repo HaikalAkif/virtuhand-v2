@@ -193,7 +193,7 @@
       message,
     }
 
-    const response = await fetch('http://localhost:3000/chat', {
+    const response = await fetch('https://api.virtuhand.icool.my/chat', {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -276,7 +276,7 @@
 
     fd.append('image', file);
 
-    const response = await fetch('http://localhost:3000/virtuhand', {
+    const response = await fetch('https://api.virtuhand.icool.my/virtuhand', {
       method: 'POST',
       body: fd,
     });

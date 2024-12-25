@@ -1,6 +1,6 @@
 
 export async function uploadImage(file) {
-    const url = 'http://localhost:3000/virtuhand';
+    const url = 'https://api.virtuhand.icool.my/virtuhand';
 
     // Prepare the form data
     const formData = new FormData();

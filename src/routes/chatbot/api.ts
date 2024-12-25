@@ -2,7 +2,7 @@ export async function sendToAPI(file: File) {
     const fd = new FormData();
     fd.append('image', file);
   
-    const response = await fetch('http://localhost:3000/virtuhand', {
+    const response = await fetch('https://api.virtuhand.icool.my/virtuhand', {
       method: 'POST',
       body: fd,
     });
