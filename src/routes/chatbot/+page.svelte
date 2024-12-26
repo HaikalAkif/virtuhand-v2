@@ -3,7 +3,8 @@
   import Sidebar from './sidebar.svelte';
   import { type ChatMessage } from './types';
   import { DocumentAttachOutline, Send, CameraOutline } from 'svelte-ionicons';
-  import { jsonrepair } from 'jsonrepair';
+  import { nanoid } from 'nanoid'
+	import { parseGeminiMessageResponse, parseGeminiPartsResponse } from './response-parser';
   
   let message: string = '';
   let isSidebarOpen: boolean = true;
@@ -43,7 +44,7 @@
   };
 
   const generateId = () => {
-    return crypto.randomUUID();
+    return nanoid();
   };
 
   const handleSendMessage = async () => {
@@ -232,18 +233,13 @@
 
       const rawText = decoder.decode(value, { stream: true });
 
+      const geminiMessage = parseGeminiMessageResponse(rawText)
+
       // buffer += rawText;
 
       chatMessages = chatMessages.filter((message) => message.id !== messageID);
 
-      console.log(rawText)
-      console.log('\n')
-
-      const repaired = jsonrepair(rawText)
-
-      const parsed = JSON.parse(repaired)
-
-      buffer += parsed?.message[0]?.text
+      buffer += geminiMessage.join('')
 
       const newMessage: ChatMessage = {
         id: messageID,
@@ -312,9 +308,11 @@
 
       const rawText = decoder.decode(value, { stream: true });
 
-      buffer += rawText;
+      const geminiMessage = parseGeminiPartsResponse(rawText)
 
       chatMessages = chatMessages.filter((message) => message.id !== messageID);
+
+      buffer += geminiMessage.join('')
 
       const newMessage: ChatMessage = {
         id: messageID,
@@ -325,6 +323,8 @@
       };
       chatMessages = [...chatMessages, newMessage];
     }
+
+    buffer = ''
   }
 
   const formatTime = (date: Date) => {
@@ -361,7 +361,7 @@
       bind:this={chatContainer}
       class="flex-1 overflow-y-auto p-4 space-y-4"
     >
-      {#each chatMessages as message, index (message.id)}
+      {#each chatMessages as message, index}
         <div class={`flex flex-col gap-1 ${message.sender === 'user' ? 'items-end' : 'items-start'}`}>
           {#if message.type === 'text'}
             <div class={`relative ${message.sender === 'user' ? 'bg-purple-600' : 'bg-gray-800'} text-white p-3 rounded-lg max-w-[80%] break-words`}>
