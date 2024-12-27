@@ -18,9 +18,9 @@
       icon: "📎"
     },
     {
-      title: "Customizable Interface",
-      description: "Adapt the chat interface to your preferences with our flexible design.",
-      icon: "🎨"
+      title: "Free Services",
+      description: "Unlimited usage without worrying about any payments.",
+      icon: "🤑"
     }
   ];
 
@@ -39,14 +39,8 @@
         <div class="bg-gray-800 rounded-2xl p-8 mb-6">
           <h2 class="text-2xl font-semibold mb-4">Our Journey</h2>
           <p class="text-gray-300 text-lg leading-relaxed mb-6">
-            VirtuHand was born from a vision to revolutionize digital interactions through intelligent 
-            conversational AI. Started as a passion project, we set out to create an assistant that 
-            doesn't just respond, but truly understands and engages.
-          </p>
-          <p class="text-gray-300 text-lg leading-relaxed">
-            Today, VirtuHand represents the culmination of cutting-edge AI technology and thoughtful 
-            design, offering a virtual assistant that adapts to your needs while maintaining a natural, 
-            engaging conversation flow.
+            VirtuHand was born from a vision to help people ease the work of understanding unreadable text. Started as a passion final year project, we set out to create an assistant that 
+            doesn't just respond, but truly understands and help people out.
           </p>
         </div>
       </section>

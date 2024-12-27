@@ -19,10 +19,9 @@
   let mediaStream: MediaStream | null = null;
 
   onMount(() => {
-    // Check if it's a mobile device
+    isSidebarOpen = false
     isMobile = window.innerWidth <= 720;
     
-    // Add resize listener to update mobile status
     const checkMobile = () => {
       isMobile = window.innerWidth <= 720;
     };
@@ -78,13 +77,12 @@
 
   const handleCameraCapture = async () => {
     try {
-      // Open camera modal
       isCameraActive = true;
       
       // Request camera access
       mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { 
-          facingMode: 'environment' // Prefer back/environment camera
+          facingMode: 'environment'
         }
       });
       
@@ -133,7 +131,6 @@
           sendToAPI(file);
         });
       
-      // Close camera
       stopCamera();
     }
   };
@@ -339,11 +336,11 @@
   };
 </script>
 
-<div class="flex h-screen bg-black">
+<div class="flex h-screen bg-black overflow-hidden">
   <Sidebar bind:isOpen={isSidebarOpen} />
   
-  <main class="flex-1 flex flex-col">
-    <header class="p-4 border-b border-gray-800">
+  <main class="flex-1 flex flex-col w-full relative">
+    <header class="p-2 sm:p-4 border-b border-gray-800 flex-shrink-0">
       <div class="flex items-center gap-4">
         {#if !isSidebarOpen}
           <button 
@@ -353,19 +350,21 @@
             ☰
           </button>
         {/if}
-        <h2 class="text-xl text-white">My Chat</h2>
+        <h2 class="text-lg sm:text-xl text-Twhite">My Chat</h2>
       </div>
     </header>
 
     <div 
       bind:this={chatContainer}
-      class="flex-1 overflow-y-auto p-4 space-y-4"
+      class="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 pb-24"
     >
       {#each chatMessages as message, index}
         <div class={`flex flex-col gap-1 ${message.sender === 'user' ? 'items-end' : 'items-start'}`}>
           {#if message.type === 'text'}
             <div class={`relative ${message.sender === 'user' ? 'bg-purple-600' : 'bg-gray-800'} text-white p-3 rounded-lg max-w-[80%] break-words`}>
-              {message.content}
+              <div class="whitespace-pre-wrap overflow-x-auto max-w-full">
+                {message.content}
+              </div>
               {#if isLastMessage(index)}
                 <div class="absolute bottom-0 right-0 translate-y-full pt-1">
                   <span class="text-gray-400 text-xs">
@@ -379,7 +378,7 @@
               <img 
                 src={message.content} 
                 alt="Uploaded"
-                class="rounded-lg max-w-[360px] object-contain"
+                class="rounded-lg w-full max-w-[280px] sm:max-w-[360px] object-contain"
               />
               {#if isLastMessage(index)}
                 <div class="absolute bottom-0 right-0 translate-y-full pt-1">
@@ -389,7 +388,7 @@
                 </div>
               {/if}
             </div>
-          {:else if message.type === 'loading'}
+          {:else if message.type === 'loading'} //loading animation
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -410,36 +409,36 @@
       {/each}
     </div>
 
-    <div class="p-4 border-t border-gray-800">
-      <div class="flex gap-4">
+    <div class="absolute bottom-0 left-0 right-0 p-2 sm:p-4 border-t border-gray-800 bg-black">
+      <div class="flex gap-2 sm:gap-4">
         <div class="flex-1 relative">
           <input
             type="text"
             bind:value={message}
             on:keypress={handleKeyPress}
-            placeholder="Type something..."
-            class="w-full bg-gray-900 text-white rounded-lg px-4 py-3 pr-24 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder={isMobile ? "Message..." : "Type something..."}
+            class="w-full bg-gray-900 text-white rounded-lg px-3 sm:px-4 py-2 sm:py-3 pr-20 sm:pr-24 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
           />
-          <div class="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+          <div class="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 flex gap-1 sm:gap-2">
             <button
-              class="text-gray-400 hover:text-Twhite p-2 rounded-full hover:bg-gray-800"
+              class="text-gray-400 hover:text-white p-1.5 sm:p-2 rounded-full hover:bg-gray-800"
               on:click={handleFileUpload}
             >
               <DocumentAttachOutline class="text-Twhite" />
             </button>
 
             <button
-              class="text-gray-400 hover:text-Twhite p-2 rounded-full hover:bg-gray-800"
+              class="text-gray-400 hover:text-white p-1.5 sm:p-2 rounded-full hover:bg-gray-800"
               on:click={handleCameraCapture}
             >
               <CameraOutline class="text-Twhite" />
             </button>
 
             <button
-              class="text-gray-400 hover:text-Twhite p-2 rounded-full hover:bg-gray-800"
+              class="text-gray-400 hover:text-white p-1.5 sm:p-2 rounded-full hover:bg-gray-800"
               on:click={handleSendMessage}
             >
-              <Send class="text-Twhite" />
+              <Send class="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
           <input 
