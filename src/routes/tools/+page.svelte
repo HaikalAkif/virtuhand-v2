@@ -12,7 +12,7 @@
             title: "Text Editor",
             description: "Simple online editor to modify your converted text",
             icon: "✏️",
-            status: "Available"
+            status: "Coming Soon"
         },
         {
             title: "Bulk Processing",
@@ -24,26 +24,26 @@
             title: "Text Comparison",
             description: "Compare original and converted text side by side",
             icon: "🔍",
-            status: "Available"
+            status: "Coming Soon"
         },
         {
             title: "Language Detection",
             description: "Automatically detect the language of your text",
             icon: "🌐",
-            status: "Coming Soon"
+            status: "Available"
         },
         {
             title: "Export Options",
             description: "Export your converted text in various formats",
             icon: "💾",
-            status: "Available"
+            status: "Coming Soon"
         }
     ];
 </script>
 
-<div class="h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white overflow-hidden">
-    <Particles className="absolute inset-0" refresh={true} />
-    <div class="h-full container mx-auto px-4 py-8 overflow-y-auto">
+<div class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white overflow-hidden">
+    <Particles className="fixed inset-0" refresh={true} />
+    <div class="relative container mx-auto px-4 py-8">
         <div class="text-center mb-6 md:mb-8">
             <h1 class="text-2xl md:text-4xl font-bold mb-3 md:mb-4">Complementary Tools</h1>
             <p class="text-gray-300 text-sm md:text-base max-w-2xl mx-auto px-2">
