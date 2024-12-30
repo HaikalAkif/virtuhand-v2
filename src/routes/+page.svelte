@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { ChatboxOutline, Menu, Bug } from 'svelte-ionicons';
   import MobileNav from './mobileNavPanel.svelte';
   import toast, { Toaster } from 'svelte-french-toast';
@@ -13,7 +13,7 @@
 
   let isDialogOpen = false;
   let isMenuOpen = false;
-  let feedbackContent= '';
+  $: feedbackContent= '';
 
   const openDialog = () => {
     isDialogOpen = true;
@@ -24,7 +24,18 @@
     feedbackContent = '';
   };
 
-  const submitFeedback = () => {
+  const submitFeedback = async() => {
+
+    const formdata = new FormData()
+    formdata.append('message', feedbackContent)
+
+    const response = await fetch('?/submitFeedback', {
+      method: 'POST',
+      body: formdata
+    })
+
+    console.log(response)
+
     if (feedbackContent.trim()) {
       toast.success('Feedback submitted! Thank you!', {
         position: 'bottom-center',
