@@ -14,6 +14,7 @@ datasource db {
 }
 
 model Feedback {
-  uuid    String @id @unique
-  message String
+  uuid      String   @id @unique
+  message   String
+  CreatedAt DateTime @default(now())
 }
