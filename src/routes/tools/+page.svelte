@@ -66,7 +66,7 @@
             {/each}
         </div>
 
-        <div class="text-center mt-6 md:mt-8">
+        <!-- <div class="text-center mt-6 md:mt-8">
             <p class="text-gray-300 text-sm md:text-base mb-4 md:mb-6">Want to try our available tools?</p>
             <a 
                 href="/chat" 
@@ -74,6 +74,6 @@
             >
                 Start Using Tools
             </a>
-        </div>
+        </div> -->
     </div>
 </div>
