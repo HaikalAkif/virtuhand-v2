@@ -48,6 +48,7 @@
 		"react-dom": "^18.0.0",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-ionicons": "^2.0.1",
+		"svelte-meta-tags": "^4.0.4",
 		"tailwind-merge": "^2.5.5",
 		"uuid": "^11.0.3"
 	},
