@@ -1,7 +1,6 @@
 import typography from '@tailwindcss/typography';
 import tailwindcss_animate from 'tailwindcss-animate'
 export default {
-    darkMode: ['class'],
     content: ['./src/**/*.{html,js,svelte,ts}'],
 
   theme: {

@@ -2,7 +2,6 @@
 	import { ChatboxOutline, Menu, Bug } from 'svelte-ionicons';
 	import MobileNav from './mobileNavPanel.svelte';
 	import toast, { Toaster } from 'svelte-french-toast';
-	import ThemeButton from './ThemeButton.svelte';
 	import Particles from './Particles.svelte';
 
 	const handleSubscribeClick = () => {
@@ -71,8 +70,6 @@
 					<h3 class="text-white"><a href="/faqs" class="link">FAQs</a></h3>
 					<h3 class="text-white"><a href="/about" class="link">About</a></h3>
 				</div>
-
-				<ThemeButton />
 
 				<button class="p-2 text-white md:hidden" onclick={toggleMenu}>
 					<Menu class="h-6 w-6" />
